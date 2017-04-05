@@ -39,8 +39,8 @@ end
 
 group :test do
   gem 'factory_girl_rails', '~> 4.0' ##  Fixtures replacement with a more straightforward syntax. 
-  gem 'shoulda-matchers', '~> 3.1' ## Provides RSpec with additional matchers.
   gem 'faker' ## A library for generating fake data. use this to generate test data.
+  gem 'shoulda-matchers', '~> 3.1' ## Provides RSpec with additional matchers.
   gem 'database_cleaner' ## t Literally cleans our test database to ensure a clean state in each test suite.
 end 
 
