@@ -8,7 +8,7 @@ require 'rspec/rails'
 
 require 'database_cleaner'
 
-# If you are not using ActiveRecord, you can remove this line.
+
 ActiveRecord::Migration.maintain_test_schema!
 
 # configure shoulda-matchers to use rspec as the test framework and full matcher libraries for rails
@@ -19,6 +19,9 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+# Congigure to autoload the support directory, then share it to all spec requests
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -27,6 +30,9 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.filter_rails_from_backtrace!
+
+  # Share module RequestSpecHelper to all requests
+  config.include RequestSpecHelper, type: :request
 
   # add `FactoryGirl` methods
   config.include FactoryGirl::Syntax::Methods
