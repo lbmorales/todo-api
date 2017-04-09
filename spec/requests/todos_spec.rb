@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe 'Todos API', :type :requests do
+RSpec.describe 'Todos API', type: :request do
   # initialize test data
-  let!(:todos) { create_list(:todo, 10)}
+  let!(:todos) { create_list(:todo, 10) }
   let(:todo_id) { todos.first.id }
 
   # test suite for GET /todos
@@ -12,7 +12,7 @@ RSpec.describe 'Todos API', :type :requests do
 
     it 'returns todos' do
       # Note `json` is a custom helper to parse JSON responses
-      # For json code see /spec/support/request_spec_helper.rb
+      # For json code see /spec/support/request_spec_helper.rb, created
       expect(json).not_to be_empty
       expect(json.size).to eq(10)
     end
@@ -24,7 +24,7 @@ RSpec.describe 'Todos API', :type :requests do
 
   # Test suite for GET /todos/:id
   describe 'GET /todos/:id' do
-    before { get '/todos/#{todo_id}' }
+    before { get "/todos/#{todo_id}" }
 
     context 'when the record exists' do
       it 'returns the todo' do
@@ -45,15 +45,15 @@ RSpec.describe 'Todos API', :type :requests do
       end
 
       it 'returns not found message' do
-        expect(response.body).to match(/Could't find Todo/)
+        expect(response.body).to match(/Couldn't find Todo/) # Note: Este mensaje tiene que ser exactamente igual pq es lo que devuelve el servidor en el response
       end
     end
   end
 
-   # Test suite for POST /todos
+  # Test suite for POST /todos
   describe 'POST /todos' do
     # valid payload
-    let(:valid_attributes) {{title: 'Lorem Ipsum', created_by: '1'}}
+    let(:valid_attributes) { { title: 'Lorem Ipsum', created_by: '1' } }
 
     context 'when the resquest is valid' do
       before { post '/todos', params: valid_attributes }
@@ -68,36 +68,69 @@ RSpec.describe 'Todos API', :type :requests do
     end
 
     context 'when the resquest in invalid' do
-      before { post '/todos', params: { title: 'Foobar only title' } }
+      before { post '/todos', params: { title: 'Only title' } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
       end
 
       it 'returns a validation message failure' do
-        expect(response.body).to match(/Validation failure: Created by can't be blank/)
+        expect(response.body).to match(/Validation failed: Created by can't be blank/)
       end
     end
-   end
+  end
 
-   # Test suite for PUT /todos/:id
+  # Test suite for PUT /todos/:id
   describe 'PUT /todos/:id' do
     let(:valid_attributes) { { title: 'Shopping' } }
 
     context 'when the record exists' do
-      expect(response.body).to be_empty
+      before { put "/todos/#{todo_id}", params: valid_attributes }
+
+      it 'updates the record' do
+        expect(response.body).to be_empty # Body empty 'couse update dont return the object
+      end
+
+      it 'returns status code 204' do
+        expect(response).to have_http_status(204)
+      end
     end
 
-    it 'returns status code 204' do
-      expect(response).to have_http_status(204)
+    context 'when the record does not exists' do
+      before { put "/todos/#{todo_id}", params: valid_attributes } #  sacar para arriba?????????????
+      let(:todo_id) { 1000 }
+
+      it 'returns status code 404' do
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns not found message' do
+        expect(response.body).to match(/Couldn't find Todo/)
+      end
     end
   end
 
   # Test suite for DELETE /todos/:id
   describe 'DELETE /todos/:id' do
-    before { delete '/todos/#{todo_id}'}
+    before { delete "/todos/#{todo_id}" }
 
-    it 'returns status code 204'
+    context 'when the record exists' do
+      it 'returns status code 204' do
+        expect(response).to have_http_status(204)
+      end
+    end
+
+    context 'when the record does not exists' do
+      let(:todo_id) { 1000 }
+
+      it 'returns status code 404' do
+        # expect(last_response.status).to eq(404)
+        expect(response).to have_http_status(404)
+      end
+
+      it 'returns not found message' do
+        expect(response.body).to match(/Couldn't find Todo/)
+      end
+    end
   end
-
 end
