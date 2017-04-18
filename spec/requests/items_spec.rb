@@ -29,13 +29,13 @@ RSpec.describe 'Items API' do
       end
 
       it 'returns not found message' do
-        expect(response.body).to match(/Could't find todo/)
+        expect(response.body).to match(/Couldn't find Todo/)
       end
     end
   end
 
   # Test suit for GET /todos/:todo_id/items/:item_id
-  describe '/todos/:todo_id/items/:id' do # ????????????? no necesito probar aqui que el todo existe???
+  describe '/todos/:todo_id/items/:id' do
     before { get "/todos/#{todo_id}/items/#{id}" }
 
     context 'when todo item exists' do
@@ -72,9 +72,13 @@ RSpec.describe 'Items API' do
         expect(response).to have_http_status(201)
       end
 
-      # it 'create a item' do
-      #     expect(json['title']).to eq('Visit cancun')
-      # end
+      # Este test no es necesario hacerlo, en todo caso probar un que viene un id
+      it 'creates an item' do
+        # puts json
+        #item = JSON.parse(response.body)
+        #item['id']
+        expect(json['name']).to eq('Visit cancun')
+      end
     end
 
     context 'when request is invalid' do
@@ -85,7 +89,7 @@ RSpec.describe 'Items API' do
       end
 
       it 'returns a failure message' do
-        expect(response.body).to match(/Validation faliled: Name can't be blank/)
+        expect(response.body).to match(/message\":\"Validation failed: Name can't be blank/)
       end
     end
   end

@@ -3,7 +3,7 @@ class TodosController < ApplicationController
   # GET /todos
   def index
     @todos = Todo.all
-    json_response(@todos) # json_response is a helper by me, see: controllers/concerns/response.rb
+    json_response(@todos) # json_response is a helper writed by me, see: controllers/concerns/response.rb
   end
 
   # POST /todos
