@@ -13,8 +13,11 @@ gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 
-# Use ActiveModel has_secure_password
+# Used in ActiveModel to put has_secure_password. This is used to encript password
 gem 'bcrypt', '~> 3.1.7'
+
+# JSON Web Token gem
+gem 'jwt'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
