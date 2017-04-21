@@ -20,7 +20,7 @@ module ExceptionHandler
     #
 
     rescue_from ActiveRecord::RecordNotFound do |e|
-      json_response({ message: e.message }, :not_found)
+      json_response({ message: e.message }, :not_found) # message defined on messages.rb
     end
 
     rescue_from ActiveRecord::RecordInvalid do |e|
@@ -30,11 +30,11 @@ module ExceptionHandler
 
   private
 
-  def four_twenty_two
+  def four_twenty_two(e)
     json_response({ message: e.message }, :unprocessable_entity)
   end
 
-  def unauthorized_request
-    json_response({ message: e.message }, :unauthorized)
+  def unauthorized_request(e)
+    json_response({ message: e.message }, :unauthorized) # message defined on messages.rb
   end
 end
