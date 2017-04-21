@@ -5,7 +5,7 @@ class AuthorizeApiRequest
     @headers = headers
   end
 
-  # service entry point : return valid user abject
+  # service entry point : return valid user abject on hash form
   def call
     { user: user }
   end
