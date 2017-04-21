@@ -2,6 +2,8 @@ class AuthenticationController < ApplicationController
     # expose an /auth/login endpoint that accepts user credentials 
     # returns a JSON response with the result.
 
+    skip_before_action :authorize_request, only: :authenticate
+    
     # POST auth/login
     def authenticate
         auth_token = AuthenticateUser.new(auth_params[:email], auth_params[:password]).call
