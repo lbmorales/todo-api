@@ -7,9 +7,9 @@ module ExceptionHandler
   extend ActiveSupport::Concern
 
   # Define custom error subclasses - rescue catches `StandardErrors`
-  class AuthenticationError < StandardErrors; end
-  class MissingToken < StandardErrors; end
-  class InvalidToken < StandardErrors; end
+  class AuthenticationError < StandardError; end
+  class MissingToken < StandardError; end
+  class InvalidToken < StandardError; end
 
   included do
     # This bock was added for token based authentication
