@@ -4,7 +4,7 @@ class Message
   end
 
   def self.invalid_credentials
-    'invalid credentials'
+    'Invalid credentials'
   end
 
   def self.invalid_token
@@ -20,7 +20,7 @@ class Message
   end
 
   def self.account_created
-    'Account created successfuly'
+    'Account created successfully'
   end
 
   def self.account_not_created

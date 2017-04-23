@@ -2,7 +2,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
 
@@ -10,7 +10,6 @@ require 'database_cleaner'
 
 # Congigure to autoload the support directory, then share it to all spec requests
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
-
 
 ActiveRecord::Migration.maintain_test_schema!
 
@@ -31,7 +30,9 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   # Share module RequestSpecHelper to all requests
-  config.include RequestSpecHelper, type: :request
+  # previously 'config.include RequestSpecHelper, type: :request'
+  config.include RequestSpecHelper
+  config.include ControllerSpecHelper
 
   # add `FactoryGirl` methods
   config.include FactoryGirl::Syntax::Methods
@@ -48,5 +49,4 @@ RSpec.configure do |config|
       example.run
     end
   end
-
 end
