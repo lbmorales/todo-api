@@ -7,6 +7,7 @@ class AuthorizeApiRequest
 
   # service entry point : return valid user abject on hash form
   def call
+    puts '>>>>>>>>>  AuthorizeApiRequest called' 
     { user: user }
   end
 
