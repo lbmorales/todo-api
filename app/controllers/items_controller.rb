@@ -15,15 +15,13 @@ class ItemsController < ApplicationController
   # POST /todos/:todo_id/items
   def create
     item = @todo.items.create!(item_params)
-    # para devolver en el json_response el status code busco por (status codes rails symbols)
-    json_response(item, :created) # PQ no devolver aqui el item o todo & item?????????
+    json_response(item, :created)
   end
 
   # PUT /todos/:todo_id/items/:id
   def update
     @item.update(item_params)
-    # json_response(@item, :no_content) Si lo pongo asi, pq quisiera devilver el item, no funciona
-    head :no_content ## Que sigbifica head ?????????
+    head :no_content
   end
 
   # DELETE /todos/:todo_id/items/:id

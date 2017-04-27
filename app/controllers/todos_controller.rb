@@ -2,14 +2,12 @@ class TodosController < ApplicationController
   before_action :set_todo, only: [:show, :update, :destroy]
   # GET /todos
   def index
-    # get current user todos
     @todos = current_user.todos
-    json_response(@todos) # json_response is a helper writed by me, see: controllers/concerns/response.rb
+    json_response(@todos)
   end
 
   # POST /todos
   def create
-     # create todos belonging to current user
     @todo = current_user.todos.create!(todo_params)
     json_response(@todo, :created)
   end
@@ -34,7 +32,6 @@ class TodosController < ApplicationController
   private
 
   def todo_params
-    # white list params
     params.permit(:title)
   end
 

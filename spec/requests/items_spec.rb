@@ -67,11 +67,9 @@ RSpec.describe 'Items API' do
 
   # Tests suit for POST /todos/:todo_id/items
   describe 'POST /todos/:todo_id/items' do
-    # let(:valid_attributes) { { name: 'Visit cancun', done: 'False' } }
     let(:valid_attributes) { { name: 'Visit cancun', done: false }.to_json }
 
     context 'when request attributes are valid' do
-      # before { post "/todos/#{todo_id}/items", params: valid_attributes }
       before do
         post "/todos/#{todo_id}/items", params: valid_attributes, headers: headers
       end
@@ -80,17 +78,12 @@ RSpec.describe 'Items API' do
         expect(response).to have_http_status(201)
       end
 
-      # Este test no es necesario hacerlo, en todo caso probar un que viene un id
       it 'creates an item' do
-        # puts json
-        # item = JSON.parse(response.body)
-        # item['id']
         expect(json['name']).to eq('Visit cancun')
       end
     end
 
     context 'when request is invalid' do
-      # before { post "/todos/#{todo_id}/items", params: {} }
       before { post "/todos/#{todo_id}/items", params: {}, headers: headers }
 
       it 'returns status code 422' do
@@ -105,13 +98,11 @@ RSpec.describe 'Items API' do
 
   # Test suit for PUT /todos/:todo_id/items/:id
   describe 'PUT /todos/:todo_id/items/:id' do
-    # let(:valid_attributes) { { name: 'Mozart' } }
     let(:valid_attributes) { { name: 'Mozart' }.to_json }
 
     before do
       put "/todos/#{todo_id}/items/#{id}", params: valid_attributes, headers: headers
     end
-    # before { put "/todos/#{todo_id}/items/#{id}", params: valid_attributes }
 
     context 'when item exists' do
       it 'returns status code 204' do
@@ -139,7 +130,6 @@ RSpec.describe 'Items API' do
 
   # Test suit for DELETE /todos/:todo_id/items/:id
   describe 'DELETE /todos/:todo_id/items/:id' do
-    # before { delete "/todos/#{todo_id}/items/#{id}" }
     before { delete "/todos/#{todo_id}/items/#{id}", params: {}, headers: headers }
 
     context 'when record exists' do
@@ -153,10 +143,6 @@ RSpec.describe 'Items API' do
 
       it 'returns status code 404' do
         expect(response).to have_http_status(404)
-      end
-
-      it 'returns not found message' do
-        expect(response.body).to match(/Couldn't find Item/)
       end
     end
   end

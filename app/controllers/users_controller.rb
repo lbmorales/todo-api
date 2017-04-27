@@ -1,6 +1,4 @@
 class UsersController < ApplicationController
-  # The user controller should expose a /signup endpoint that accepts user
-  # information and returns a JSON response with the result
 
   skip_before_action :authorize_request, only: :create
 
