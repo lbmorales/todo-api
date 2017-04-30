@@ -1,21 +1,22 @@
 class AuthenticateUser
-  def initialize(email, password)
-    @email = email
-    @password = password
-  end
-
   # Service entry point
-  def call
-    JsonWebToken.encode(user_id: user.id) if user
+  def self.call(email, password)
+    user = User.find_by!(email: email)
+    unless user.authenticate(password)
+      raise ExceptionHandler::AuthenticationError, Message.invalid_credentials
+    end
+    encoded_token = JsonWebToken.encode(user_id: user.id)
+    encoded_token
+  rescue ActiveRecord::RecordNotFound
+    raise ExceptionHandler::AuthenticationError, Message.invalid_credentials
   end
 
-  private
-
-  attr_reader :email, :password
-
-  def user
-    user = User.find_by(email: email)
-    return user if user && user.authenticate(password)
-    raise(ExceptionHandler::AuthenticationError, Message.invalid_credentials)
-  end
+  # def self.call(email, password)
+  #   user = User.find_by!(email: email)
+  #   raise ExceptionHandler::AuthenticationError, Message.invalid_credentials unless user.authenticate(password)
+  #   encoded_token = JsonWebToken.encode(user_id: user.id)
+  #   encoded_token
+  # rescue ActiveRecord::RecordNotFound => e
+  #   raise ExceptionHandler::AuthenticationError, Message.invalid_credentials
+  # end
 end
